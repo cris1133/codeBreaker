@@ -10,6 +10,13 @@ from itertools import chain, repeat, islice
 
 def main(stdscr):
 
+	global start
+	start = time.time()
+
+	def calcx(string1):
+		y, x = myscreen.getmaxyx()
+		return int(x)/2-len(string1)/2
+
 	def generateNumber():
 		return random.randint(0, 9999)
 	global numberRandom
@@ -68,10 +75,12 @@ def main(stdscr):
 		range_first_temp = range_first
 		global game
 		if game == 0:
+			end = time.time()
 			myscreen.clear()
 			myscreen.addstr(8, 1, figlet_format('Game Over!', font='big', justify = 'center'), curses.color_pair(3))
 			myscreen.addstr(15, 32, "Code is: ", curses.color_pair(3))
 			myscreen.addstr(15, 41, str(numberRandom), curses.color_pair(2))
+			myscreen.addstr(16, calcx(("Time Elapsed: "+str(int(end-start)))) - 2,"Time Elapsed: " + str(int(end-start)), curses.color_pair(1))
 			myscreen.refresh()
 			myscreen.getch()
 			raise SystemExit
@@ -118,7 +127,7 @@ def main(stdscr):
 				myscreen.addstr(10, 23, str(curcode + range_first).zfill(4), curses.color_pair(2))
 				right_panel_numbers.append(curcode + range_first)
 			
-			#myscreen.addstr(11, 23, str(numberRandom).zfill(4), curses.color_pair(3))
+			# myscreen.addstr(11, 23, str(numberRandom).zfill(4), curses.color_pair(3))
 			curcode = curcode + 1
 			myscreen.refresh()
 			time.sleep(0.1)
